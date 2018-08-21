@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+<title>新开父页面</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" href="../css/ui-base.css">
+<link rel="stylesheet" href="../css/ui-img.css">
+<link rel="stylesheet" href="../css/ui-box.css">
+<link rel="stylesheet" href="../css/ui-color.css">
+<link rel="stylesheet" href="../css/win.css">
+</head>
+<body class="um-vp c-wh" ontouchstart>
+<div id="page_0" class="up ub ub-ver" tabindex="0">
+    <!-- 页头 -->
+    <header id="header" class="header">
+        <div class="title">
+            <div class="title-left" goback></div>
+            <div class="title-mid" id="title">系统下拉刷新</div>
+            <div class="title-right"></div>
+        </div>  
+    </header>
+    <!-- 内容 -->
+    <div id="content" class="content"></div>
+</div>
+<script src="../js/jquery.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/win.js"></script>
+<script>
+function plusReady(){
+    iP.init();
+}
+if(window.plus){
+    plusReady();
+}else{
+    document.addEventListener('plusready', plusReady, false);
+}
+var iP = {
+    init: function(){
+        win.openPopover("sysRefresh", "sysRefresh_win");
+    }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html style="overflow-x:hidden">
+<head>
+<title>新子页面</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" href="../css/ui-box.css">
+<link rel="stylesheet" href="../css/ui-base.css"> 
+<link rel="stylesheet" href="../css/ui-position.css">
+<link rel="stylesheet" href="../css/ui-img.css">
+<link rel="stylesheet" href="../css/ui-color.css">
+<link rel="stylesheet" href="../css/ui-input.css">
+<link rel="stylesheet" href="../css/iBox.css">
+</head>
+<body  class="um-vp" ontouchstart style="overflow:hidden;">
+<p>点我进入到系统下拉刷新。</p>
+<div class="toH5 w100 h150 bc10">点我进到h5上下拉刷新</div>
+<script src="../js/jquery.js"></script>
+<script src="../js/iBox.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/Base64.js"></script>
+<script>
+$("p").on("click", function(){
+    iG.openWin("sysRefresh_win");
+});
+$(".toH5").on("click", function(){
+    iG.openWin("h5Refresh_win");
+});
+</script>
+</body>
+</html>

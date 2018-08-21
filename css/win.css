@@ -1,0 +1,73 @@
+.header{
+
+}
+.title{
+    display: -webkit-box !important;
+    height:2.8em;
+    background-color:#3a5b98;
+    padding:0 0.6em;
+    -webkit-box-align:center;
+}
+.title-left{
+    width:3em;  
+    background-repeat: no-repeat;
+    background-position:  left center;
+    height: 1.3em;
+}
+.title-mid{
+    -webkit-box-flex: 1;
+    text-align:center;
+    color:#fff;
+}
+.title-right{
+    width:3em; 
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+[golist]{
+    background-image: url("../images/img1.png");
+    background-size: 1.1em 1.1em;
+}
+[goback]{
+    background-image: url("../img/img26.png");
+    background-size: 2.8em 1.3em;
+}
+[refresh]{
+	background-image: url("../images/img118.png");
+    background-size: 1.4em 1.4em;
+    height: 1.4em;
+}
+[openmore]{
+    background-image: url("../images/img27.png");
+    background-size: 1.4em 1.4em;
+    height: 1.4em;
+}
+[finish]{
+    text-align: right;
+    color:#fff
+}
+/* 页头 */
+html{
+    width:3.125em;
+    height:3.125em;
+    background-image: url("../images/bg.png");
+    background-repeat: repeat;
+    background-size: 3.125em auto;
+}
+/* 内容 */
+.content{
+/*    background: #fff;*/
+    -webkit-box-flex:1;
+    height:100%;
+}
+/* 页脚 */
+/* tab1 */
+.tab1.act{
+    -webkit-box-shadow:0 0 10px rgba(102,129,182,0.5) inset;
+}
+input[type="radio"]:checked + .tab1{
+    background-size: 0.87em 0.32em;
+    background-image: url('../images/img102.png');
+    background-repeat:no-repeat;
+    background-position:top center;
+}

@@ -1,0 +1,114 @@
+.iBox-wrap{
+    z-index: 10000;
+    position: fixed;
+    top:50%;
+    width:100%;
+    left:0;
+    line-height: normal;
+}
+/* 遮罩层 */
+.iBox-shade{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fafafa;
+    opacity: 0.9;
+    z-index:9999;
+}
+/* 容器 */
+.iBox-box{
+    background: #000;
+    opacity: 0.9;
+    padding:0.5em 0;
+    margin:0 auto;
+/*    border: 2px solid #8E8E8E;*/
+    border-radius: 4px 4px 4px 4px;
+/*    box-shadow: 0 0 6px #646464;*/
+    color: #669900;
+
+}
+/* 标题 */
+.iBox-title{
+    border-bottom: 1px solid #CCCCCC;
+    line-height: 40px;
+    padding:0 15px;
+}
+/* 内容 */
+.iBox-msg {
+    padding:0.8em 0.9em 0.8em 0.8em;
+    text-align: center;
+    
+}
+.iBox-msg>b{
+    font-size:80%;
+    display:block;
+    color:#fff;
+}
+/* 内容-有图标 */
+.iBox-noIcon{
+    padding-left:0.9em;
+}
+/* 内容-无按钮 */
+.iBox-noBtns{
+    padding-top:0.46em;
+    padding-bottom:0.46em;
+}
+
+/* 图标 */
+.iBox-icon{
+    background-image:url("../images/iBox.gif");
+    -webkit-background-size:contain;
+	background-size:contain;
+	background-repeat:no-repeat;
+	background-position:center;
+    position:absolute;
+    top:50%;
+    margin-top:-0.6em;
+    left:0.75em;
+    width: 1.2em;
+    height:1.2em;
+}
+
+/* 按钮 */
+.iBox-button{
+    position: relative;
+    left:50%;
+    width:140px;
+    height:40px;
+    line-height:40px;
+    margin-left:-70px;
+    
+}
+.iBox-button span{
+    cursor: pointer;
+}
+/* 按钮-确定 */
+.iBox-ok{
+    float:left;
+}
+/* 按钮-取消 */
+.iBox-cancel{
+    float:right;
+}
+/* 按钮-只有一个 */
+.iBox-center{
+    float:none;
+}
+/* 容器-绿 */
+.iBox-green .iBox-msg{
+    color: #8E8E8E;
+}
+/*
+.iBox-green .iBox-icon{
+    background-position: -1px -38px;
+}
+*/
+/* 容器-红 */
+.iBox-red .iBox-msg{
+    color:#FF3300;
+}
+.iBox-red .iBox-icon{
+    background-position: -1px -75px;
+}

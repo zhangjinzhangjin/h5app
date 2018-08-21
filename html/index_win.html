@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+<title>主页</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" href="../css/ui-base.css">
+<link rel="stylesheet" href="../css/ui-box.css">
+<link rel="stylesheet" href="../css/ui-img.css">
+<link rel="stylesheet" href="../css/ui-color.css">
+<link rel="stylesheet" href="../css/ui-position.css">
+<link rel="stylesheet" href="../css/win.css">
+<link rel="stylesheet" href="../css/iBox.css">
+</head>
+<body class="um-vp c-wh" >
+<div id="page_0" class="up ub ub-ver" tabindex="0">
+    <!-- 页头 -->
+    <header id="header" class="header">
+        <div class="title">
+            <div class="title-left"></div>
+            <div class="title-mid ub ub-ac ub-pc" id="title">
+                这里是主页一        
+            </div>
+            <div class="w30 fs9 bc10 subCall">点击调子页</div>
+            <div class="title-right"></div>
+       </div>
+    </header>
+    <!-- 内容 -->
+    <div id="footer" class="footer pf w_100 b0">
+        <div class="ub h30 bc16">
+           <div class="ub-f1 w0 ub ub-ac ub-pc c1" tabTo="index">
+               <div class="fs7 c66">主页一</div>
+           </div>
+            <div class="ub-f1 w0 ub ub-ac ub-pc c1 ubl" tabTo="index2">
+                <div class="fs7 c66">主页二</div>
+           </div>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery.js?v=202020"></script>
+<script src="../js/iBox.js?v=202020"></script>
+<script src="../js/common.js?v=202020"></script>
+<script src="../js/win.js?v=202020"></script>
+<script>
+function plusReady(){
+    iP.init();
+}
+function fatherCall(){
+    alert("调了父页方法");
+}
+$(".subCall").on("click", function(){
+    iG.execFunc("index", "subCall();");
+});
+if(window.plus){
+    plusReady();
+}else{
+    document.addEventListener('plusready', plusReady, false);
+}
+var iP = {
+    init: function(){
+        iG.init();
+        win.openPopover("index", "index_win");
+        $("[tabTo]").on("click", function(){
+            var tabTo = $(this).attr("tabTo");
+            win.openPopover(tabTo, "index_win");
+        });
+        plus.key.addEventListener("backbutton",function(){
+            var array = iG.getObjItem("openWin","array");
+            if(!array || array.length == 0){
+                var confirmResult = confirm("确定退出吗？");
+                if(confirmResult)
+                  plus.runtime.quit();
+            }else{
+                var lastWinId = array[array.length - 1];
+                array.pop();
+                iG.setObjItem("openWin","array",array);
+                plus.webview.close(lastWinId);
+            }
+        });
+    }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<link rel="stylesheet" href="../css/mescroll.css">
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				-webkit-touch-callout:none;
+				-webkit-user-select:none;
+				-webkit-tap-highlight-color:transparent;
+			}
+			body{background-color: white}
+			ul{list-style-type: none}
+			img{width: 100%;vertical-align: bottom;}
+			
+			/*模拟的标题,底部*/
+			.header{
+				z-index: 9990;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 44px;
+				border-bottom: 1px solid #eee;
+				background-image: url(img/header.jpg);
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-color: white;
+			}
+			.footer{
+				z-index: 9990;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 50px;
+				border-top: 1px solid #eee;
+				background-image: url(img/footer.jpg);
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-color: #F8F8F8;
+			}
+			
+			/*列表*/
+			.mescroll{
+				position: fixed;
+				top: 0px;
+				bottom: 1px;
+				height: auto;
+			}
+			/*回到顶部按钮*/
+			.mescroll-totop {
+				bottom: 70px;
+			}
+			
+			/*下拉刷新回调的提示*/
+			.download-tip{
+				z-index: 9900;
+				position: fixed;
+				top: 10px;
+				left: 0;
+				width: 100%;
+				height: 30px;
+				line-height: 30px;
+				font-size: 12px;
+				text-align: center;
+				background-color: rgba(255,130,1,.7);
+				color: white;
+				-webkit-transition: top 300ms;
+				transition: top 300ms;
+			}
+			
+			/*展示上拉加载的数据列表*/
+			.news-list li{
+				padding: 16px;
+				border-top: 1px solid #eee;
+				border-bottom: 12px solid #eee;
+			}
+			.news-list .new-content{
+				font-size: 14px;
+				margin-top: 6px;
+				margin-left: 8px;
+				color: #666;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="mescroll" class="mescroll">
+			<!--展示上拉加载的数据列表-->
+			<ul id="newsList" class="news-list">
+				<!--模拟的内容-->
+				<li>
+                    <p>【微博1】 标题标题标题标题标题标题</p>
+                    <p class="new-content">内容内容内容内容内容内容内容内容内容内容</p>
+                </li>
+                <li>
+                	<p>【微博2】 标题标题标题标题标题标题</p>
+                	<p class="new-content">内容内容内容内容内容内容内容内容内容内容</p>
+                </li>
+                <li>
+                	<p>【微博3】 标题标题标题标题标题标题</p>
+                	<p class="new-content">内容内容内容内容内容内容内容内容内容内容</p>
+                </li>
+                <li>
+                	<p>【微博4】 标题标题标题标题标题标题</p>
+                	<p class="new-content">内容内容内容内容内容内容内容内容内容内容</p>
+                </li>
+                <li>
+                	<p>【微博5】 标题标题标题标题标题标题</p>
+                	<p class="new-content">内容内容内容内容内容内容内容内容内容内容</p>
+                </li>
+                <li>
+                	<p>【微博6】 标题标题标题标题标题标题</p>
+                	<p class="new-content">内容内容内容内容内容内容内容内容内容内容</p>
+                </li>
+                <li>
+                	<p>【微博7】 标题标题标题标题标题标题</p>
+                	<p class="new-content">内容内容内容内容内容内容内容内容内容内容</p>
+                </li>
+                <li>
+                	<p>【微博20】 标题标题标题标题标题标题</p>
+                	<p class="new-content">内容内容内容内容内容内容内容内容内容内容</p>
+                </li>
+			</ul>
+		</div>
+	</body>
+	<script src="../js/mescroll.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/common.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(function(){
+			var downCallback = function(){
+                var mescroll = this;
+                setTimeout(function(){
+                    iG.setH5Bounce(mescroll);
+                }, 2000);
+			};
+			var upCallback = function(page){
+                var mescroll = this;
+                setTimeout(function(){
+                    var array = [];
+                    var result = array.length;
+                    if(result == 0){
+                        result = 1;
+                    }
+                	iG.setH5Bounce(mescroll, result);
+                }, 2000);
+			};
+            iG.h5Refresh("mescroll", downCallback, upCallback);
+		});
+	</script>
+</html>

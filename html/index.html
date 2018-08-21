@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="utf-8">
+<meta name="viewport" content=" width=device-width, initial-scale=2, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" href="../css/ui-box.css" />
+<link rel="stylesheet" href="../css/ui-base.css" />
+<link rel="stylesheet" href="../css/ui-img.css">
+<link rel="stylesheet" href="../css/ui-color.css">
+<link rel="stylesheet" href="../css/ui-position.css">
+<link rel="stylesheet" href="../css/iBox.css">
+</head>
+<body class="um-vp">
+<div class="w30 t14 l14 bc10 ub ub-ac ub-pc c20" id="aabb"><div>哈哈哈</div></div>
+<div class="w30 fs9 bc10 mt40 fatherCall">点击调父页</div>
+<div class="w30 fs9 bc10 mt10 tuiSong">点击推送消息</div>
+<div class="w30 fs9 bc10 mt10 capture">点击拍照</div>
+<div class="w30 fs9 bc10 mt10 gallery">点击从相册选</div>
+<div class="w40 pa l50 h40 t20">
+    <img class="iimg w_100 h_100" src="" />
+</div>
+<script src="../js/jquery.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/iBox.js"></script>
+<script src="../js/Base64.js"></script>
+<script>
+function subCall(){
+    alert("调了子页方法");
+}
+$(".fatherCall").on("click", function(){
+    iG.execFunc("index_win", "fatherCall();");
+});
+$(".tuiSong").on("click", function(option){
+    iG.shake(1000);//震动设备
+    iG.sendPushMessage("哎呀", "a=a+1", option);//推送消息
+});
+$(".capture").on("click", function(){
+    var callback = function(path){
+        console.log(path);
+        $(".iimg").attr("src", path);
+    };
+    iG.capture(callback);
+});
+$(".gallery").on("click", function(){
+    var callback = function(path){
+        $(".iimg").attr("src", path);
+    };
+    iG.gallery(callback);
+});
+function plusReady(){
+    iP.init();
+    var callback = function(msg){
+        alert( "You clicked: " + msg.content + "-" + msg.payload); 
+    };
+    iG.backFromPushMessage(callback);
+}
+if(window.plus){
+    plusReady();
+}else{
+    document.addEventListener('plusready', plusReady, false);
+}
+var iP = {
+    init: function(){
+        $("#aabb").on("click", function(){
+            iG.openWin("attention_win");
+        });
+    }
+};
+</script>
+</body>
+</html>

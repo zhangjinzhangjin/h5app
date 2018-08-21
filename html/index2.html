@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>nativeUI Example</title>
+		<script type="text/javascript">
+// H5 plus事件处理
+function plusReady(){
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener("plusready",plusReady,false);
+}
+// 选择日期
+function pickDate(){
+    var callback = function(result){
+        alert(result);
+    };
+    var dateObj = {
+        year: 1998,
+        month: 5
+    };
+	iG.openDate(callback, dateObj);
+}
+function pickTime(){
+    var callback = function(result){
+    	alert(result);
+    };
+    var dateObj = {
+    	hour: 13
+    };
+    iG.openTime(callback, dateObj);
+}
+		</script>
+	</head>
+	<body>
+	弹出系统日期选择对话框
+	<br/>
+	<button onclick="pickDate()">选择日期</button>
+    <button onclick="pickTime()">选择时间</button>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/iBox.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/Base64.js"></script>
+	</body>
+</html>
