@@ -19,13 +19,17 @@
 <script src="../js/iBox.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/Base64.js"></script>
+<script src="../js/addMicro.js"></script>
 <script>
-$("p").on("click", function(){
-    iG.openWin("sysRefresh_win");
-});
-$(".toH5").on("click", function(){
-    iG.openWin("h5Refresh_win");
-});
+    var iP = {};
+    iP.init = function(){
+        $("p").on("click", function(){
+            iG.openWin("sysRefresh_win");
+        });
+        $(".toH5").on("click", function(){
+            iG.openWin("h5Refresh_win");
+        });
+    };
 </script>
 </body>
 </html>

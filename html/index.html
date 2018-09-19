@@ -13,6 +13,8 @@
 </head>
 <body class="um-vp">
 <div class="w30 t14 l14 bc10 ub ub-ac ub-pc c20" id="aabb"><div>哈哈哈</div></div>
+<div class="pa t14 p10 bc10 file" style="left: 10em;">选择文件</div>
+<div class="pa t14 p10 bc10 file1" style="left: 17em;">选择文件1</div>
 <div class="w30 fs9 bc10 mt40 fatherCall">点击调父页</div>
 <div class="w30 fs9 bc10 mt10 tuiSong">点击推送消息</div>
 <div class="w30 fs9 bc10 mt10 capture">点击拍照</div>
@@ -23,7 +25,7 @@
 <script src="../js/jquery.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/iBox.js"></script>
-<script src="../js/Base64.js"></script>
+<script src="../js/addMicro.js"></script>
 <script>
 function subCall(){
     alert("调了子页方法");
@@ -64,6 +66,12 @@ var iP = {
     init: function(){
         $("#aabb").on("click", function(){
             iG.openWin("attention_win");
+        });
+        $(".file").on("click", function(){
+            iG.openWin("fileSelect_win");
+        });
+        $(".file1").on("click", function(){
+        	iG.openWin("file");
         });
     }
 };

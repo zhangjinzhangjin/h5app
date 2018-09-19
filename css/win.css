@@ -48,17 +48,15 @@
 }
 /* 页头 */
 html{
-    width:3.125em;
-    height:3.125em;
-    background-image: url("../images/bg.png");
+    background-image: url("../img/bg.png");
     background-repeat: repeat;
-    background-size: 3.125em auto;
+    background-size: 100% 100%;
 }
 /* 内容 */
 .content{
 /*    background: #fff;*/
     -webkit-box-flex:1;
-    height:100%;
+    height:auto;
 }
 /* 页脚 */
 /* tab1 */

@@ -32,6 +32,18 @@ function pickTime(){
     };
     iG.openTime(callback, dateObj);
 }
+function download(){
+    var url = "http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg";
+    var option = {filename: "_doc/download/zjzj.jpg"};
+    var callback = function(downloadObj){
+        plus.io.resolveLocalFileSystemURL(downloadObj.filename, function(entry) {
+        	console.log(entry.fullPath);
+        }, function(e) {
+        	alert(e.message);  
+        });
+    };
+    iG.downLoad(url, callback, option);
+}
 		</script>
 	</head>
 	<body>
@@ -39,6 +51,10 @@ function pickTime(){
 	<br/>
 	<button onclick="pickDate()">选择日期</button>
     <button onclick="pickTime()">选择时间</button>
+    <button onclick="download()">下载图片</button>
+    <button onclick="download()">上传图片</button>
+    <input type="file" />
+    <input type="date" onclick="return 1;"/>
     <script src="../js/jquery.js"></script>
     <script src="../js/iBox.js"></script>
     <script src="../js/common.js"></script>

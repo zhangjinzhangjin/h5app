@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
 <head>
-<title>新开父页面</title>
+<title>文件选择</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <link rel="stylesheet" href="../css/ui-base.css">
@@ -16,8 +16,10 @@
     <header id="header" class="header">
         <div class="title">
             <div class="title-left" goback></div>
-            <div class="title-mid" id="title">关注</div>
-            <div class="title-right"></div>
+            <div class="title-mid" id="title">文件选择</div>
+            <div class="title-right ub ub-ac ub-pc">
+                <div class="bc5 pl5 pr5 pt2 pb2">确定</div>
+            </div>
         </div>  
     </header>
     <!-- 内容 -->
@@ -26,7 +28,6 @@
 <script src="../js/jquery.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/win.js"></script>
-<script src="../js/addMicro.js"></script>
 <script>
 function plusReady(){
     iP.init();
@@ -38,7 +39,7 @@ if(window.plus){
 }
 var iP = {
     init: function(){
-        win.openPopover("attention", "attention_win");
+        win.openPopover("fileSelect", "fileSelect_win");
     }
 };
 </script>

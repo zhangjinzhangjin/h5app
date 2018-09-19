@@ -26,7 +26,8 @@
        </div>
     </header>
     <!-- 内容 -->
-    <div id="footer" class="footer pf w_100 b0">
+    <div id="content" class="content"></div>
+    <div id="footer" class="footer w_100 b0">
         <div class="ub h30 bc16">
            <div class="ub-f1 w0 ub ub-ac ub-pc c1" tabTo="index">
                <div class="fs7 c66">主页一</div>
@@ -37,10 +38,11 @@
         </div>
     </div>
 </div>
-<script src="../js/jquery.js?v=202020"></script>
-<script src="../js/iBox.js?v=202020"></script>
-<script src="../js/common.js?v=202020"></script>
-<script src="../js/win.js?v=202020"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/iBox.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/win.js"></script>
+<script src="../js/addMicro.js"></script>
 <script>
 function plusReady(){
     iP.init();
@@ -51,11 +53,6 @@ function fatherCall(){
 $(".subCall").on("click", function(){
     iG.execFunc("index", "subCall();");
 });
-if(window.plus){
-    plusReady();
-}else{
-    document.addEventListener('plusready', plusReady, false);
-}
 var iP = {
     init: function(){
         iG.init();
@@ -64,21 +61,28 @@ var iP = {
             var tabTo = $(this).attr("tabTo");
             win.openPopover(tabTo, "index_win");
         });
-        plus.key.addEventListener("backbutton",function(){
-            var array = iG.getObjItem("openWin","array");
-            if(!array || array.length == 0){
-                var confirmResult = confirm("确定退出吗？");
-                if(confirmResult)
-                  plus.runtime.quit();
-            }else{
-                var lastWinId = array[array.length - 1];
-                array.pop();
-                iG.setObjItem("openWin","array",array);
-                plus.webview.close(lastWinId);
-            }
-        });
+        if(iG.isApp){
+            plus.key.addEventListener("backbutton",function(){
+            		var array = iG.getObjItem("openWin","array");
+            		if(!array || array.length == 0){
+            				var confirmResult = confirm("确定退出吗？");
+            				if(confirmResult)
+            					plus.runtime.quit();
+            		}else{
+            				var lastWinId = array[array.length - 1];
+            				array.pop();
+            				iG.setObjItem("openWin","array",array);
+            				plus.webview.close(lastWinId);
+            		}
+            });
+        }
     }
 };
+if(window.plus){
+    plusReady();
+}else{
+    document.addEventListener('plusready', plusReady, false);
+}
 </script>
 </body>
 </html>

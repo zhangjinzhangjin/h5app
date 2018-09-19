@@ -1,5 +1,6 @@
 var iG = {};
 iG.versionNo = '1.0';
+iG.isApp = /Html5Plus/i.test(navigator.userAgent) ? true :  false;
 iG.debug = false;
 iG.init = function(){
     iG.removeObjItem("openWin","array");
@@ -139,6 +140,8 @@ iG.getMinutes = function(date){
 };
 //打开日期控件
 iG.openDate = function(callback, dateObj){
+    if(!iG.isApp)
+    		return;
     var sDate = new Date();
     if(dateObj)
         sDate.setFullYear(dateObj.year ? dateObj.year : sDate.getFullYear(), dateObj.month ? dateObj.month - 1 : 1, dateObj.day ? dateObj.day : 1);
@@ -153,6 +156,8 @@ iG.openDate = function(callback, dateObj){
 };
 //打开时间控件
 iG.openTime = function(callback, timeObj){
+    if(!iG.isApp)
+    		return;
     var sDate = new Date();
     if(timeObj)
         sDate.setHours(timeObj.hour ? timeObj.hour : sDate.getHours(), timeObj.minute ? timeObj.minute : sDate.getMinutes());
@@ -169,11 +174,15 @@ iG.openTime = function(callback, timeObj){
 ---------------------------------------------------------------------------------------*/
 //默认状态，系统下拉刷新的回调
 iG.setSysBounce = function(){
+    if(!iG.isApp)
+    		return;
     var ws = plus.webview.currentWebview();
     ws.endPullToRefresh();
 };
 //系统下拉刷新
 iG.sysPullDown = function(callback){
+    if(!iG.isApp)
+    		return;
     var ws = plus.webview.currentWebview();
     ws.setPullToRefresh({
     	support:true,
@@ -219,7 +228,7 @@ iG.h5Refresh = function(id, downCallback, upCallback){
                 src : "../img/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
             }
         }
-    var mescroll = initMeScroll("mescroll", scrollBuffer);
+    var mescroll = initMeScroll(id, scrollBuffer);
 };
 /* 其他
 ---------------------------------------------------------------------------------------*/
@@ -259,6 +268,8 @@ iG.execFunc = function(pageId, functionString){
 };
 //发送推送消息
 iG.sendPushMessage = function(msg, data){
+    if(!iG.isApp)
+    		return;
     plus.push.createMessage(msg, data, {
         cover: true,
         sound: "system"
@@ -266,16 +277,22 @@ iG.sendPushMessage = function(msg, data){
 };
 //从推送消息回到页面后的触发函数
 iG.backFromPushMessage = function(callback){
+    if(!iG.isApp)
+    		return;
     plus.push.addEventListener( "click", function ( msg ) {
         callback.call(this, msg);
     }, false ); 
 };
 //设备震动
 iG.shake = function(s){//s为毫秒数
+    if(!iG.isApp)
+    		return;
     plus.device.vibrate(s);
 };
 //照相
 iG.capture = function(callback){
+    if(!iG.isApp)
+    		return;
     var cmr = plus.camera.getCamera();
     var res = cmr.supportedImageResolutions[0];//分辨率
     var fmt = cmr.supportedImageFormats[0];//格式jpg等
@@ -294,6 +311,8 @@ iG.capture = function(callback){
 };
 //相册
 iG.gallery = function(callback, multi){//回调，是否多选
+    if(!iG.isApp)
+        return;
     if(!multi){
         plus.gallery.pick( function(path){
             callback.call(this, path);
@@ -303,14 +322,80 @@ iG.gallery = function(callback, multi){//回调，是否多选
     }else{
         plus.gallery.pick( function(e){
         		for(var i in e.files){//e.files是路径数组
-        				callback.call(this, e.files);
+        			callback.call(this, e.files);
         		}
         }, function ( e ) {
               console.log( "取消选择图片" );
         },{filter:"image",multiple:true});
     }
 };
-//debug
-if(window.navigator.platform=="Win32" && iG.debug){
-    document.write('<script src="../js/debug.js"></script>')
+iG.downLoad = function(sUrl, callback, option){//下载文件的地址，回调，下载参数
+    if(!iG.isApp){
+        return window.location.href = sUrl;
+    }
+    var option = option || {filename: "_doc/download/"};
+    /*
+    downloadObj
+    id: 下载任务的标识
+    url: 下载文件的地址
+    state: 任务的状态
+    options: 下载任务的参数
+    filename: 下载的文件名称
+    downloadedSize: 已完成下载文件的大小
+    totalSize: 下载任务文件的总大小
+    */
+    var downLoader = plus.downloader.createDownload(sUrl, option, function ( downloadObj, status ) {
+		// 下载完成
+		if ( status == 200 ) { 
+			//alert( "Download success: " + downloadObj.filename );
+            callback.call(this, downloadObj);
+		} else {
+			alert( "Download failed: " + status ); 
+		}  
+	});
+	//downLoader.addEventListener( "statechanged", onStateChanged, false );
+	downLoader.start(); 
+};
+iG.upload = function(settingObj){
+    if(!iG.isApp){
+        //微网站上传
+        return;
+    }
+       
+    /*settingObj
+    serviceUrl, 上传服务地址
+    callback, 上传成功后的回调
+    option, 上传参数
+    filePath, 上传文件路径名
+    extendData 上传时额外带的key:value数据
+    */
+    var option = settingObj.option || { method:"POST",blocksize:204800,priority:100 };
+    /*
+    uploadObj
+    id: 上传任务的标识
+    url: 上传文件的服务器地址
+    state: 任务的状态
+    options: 上传任务的参数
+    responseText: 上传任务完成后服务器返回的数据
+    uploadedSize: 已完成上传数据的大小）
+    totalSize: 上传数据的总大小
+    */
+    var uploader = plus.uploader.createUpload(settingObj.serviceUrl, settingObj.option, function (uploadObj, status ) {
+			// 上传完成
+			if ( status == 200 ) { 
+				//alert( "Upload success: " + uploadObj.url );
+                settingObj.callback.call(this, uploadObj);
+			} else {
+				alert( "Upload failed: " + status );
+			}
+		}
+	);
+	uploader.addFile(settingObj.filePath, {key: settingObj.key} );
+    if(settingObj.extendData){
+        for(var key in settingObj.extendData){
+            uploader.addData(key, settingObj.extendData[key]);
+        }
+    }
+	//task.addEventListener( "statechanged", onStateChanged, false );
+	uploader.start();
 };

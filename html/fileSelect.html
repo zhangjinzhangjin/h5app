@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="utf-8">
+<meta name="viewport" content=" width=device-width, initial-scale=2, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" href="../css/ui-box.css" />
+<link rel="stylesheet" href="../css/ui-base.css" />
+<link rel="stylesheet" href="../css/ui-img.css">
+<link rel="stylesheet" href="../css/ui-color.css">
+<link rel="stylesheet" href="../css/ui-position.css">
+<link rel="stylesheet" href="../css/iBox.css">
+</head>
+<body class="um-vp">
+<div class="parent ub ub-ac h28 ubb c11 pl10 uhide">
+    <div class="ub-img img0 mr3"></div>
+    <div class="fs10 c2">返回上一级</div>
+</div>
+<div class="content">
+    <div class="item ub ub-ac h28 ubb c11 pl10 uhide">
+        <div class="ub-img mr3"></div>
+        <div class="c2">
+            <div class="fs8 name">www</div>
+            <div class="fs8 info">--</div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="file ub ub-ac h20 ubb c11 pl10 uhide">
+    <div class="ub-img img2 mr3"></div>
+    <div class="c2">
+        <div class="fs5 name">file</div>
+        <div class="fs5 info">--</div>
+    </div>
+</div>
+-->
+<script src="../js/jquery.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/iBox.js"></script>
+<script src="../js/Base64.js"></script>
+<script>
+function plusReady(){
+    iP.init();
+}
+if(window.plus){
+    plusReady();
+}else{
+    document.addEventListener('plusready', plusReady, false);
+}
+
+var iP = {
+    init: function(){
+        iP.dir = "";
+        iP.dirArray = [];
+        iP.backDom = $(".parent");
+        iP.contentDom = $(".content");
+        iP.rootUrl = "file:///storage";
+        iP.entryObj = {};
+        iP.initRoot();
+        iP.bindClick();
+        iP.bindBackToParent();
+    },
+    initRoot: function(){
+        plus.io.resolveLocalFileSystemURL(iP.rootUrl, function(entry){
+            iP.entryObj["storage"] = entry;
+            iP.openDir(entry, "storage", true);
+        }, function (e){
+            alert( "Resolve file URL failed: " + e.message );
+        });
+    },
+    bindClick: function(){
+        iP.contentDom.on("click", ".item", function(){
+            var fileId = this.id;
+            var entry = iP.entryObj[fileId];
+            iP.openDir(entry, fileId, true);
+        });
+    },
+    bindBackToParent: function(){
+        iP.backDom.on("click", function(){
+            iP.goBack();
+        });
+    },
+    openDir: function(entry, fileId, flag) {//entry.name = fileId, flag为false表示点击返回了,不压栈
+        if(!entry)
+            return;
+        if (entry.isDirectory) {
+            if(flag)
+                iP.dirArray.push(entry.name);
+            var dirReader = entry.createReader();
+            dirReader.readEntries(function(entries){
+                iP.dir = entry.toURL() + "/";
+                if(fileId == "storage")
+                    iP.backDom.addClass("uhide");
+                else
+                    iP.backDom.removeClass("uhide");
+                iP.updateList(entries);
+            },function (e){
+                alert( "Read directory failed" + e.message);
+            });
+        }else{
+            //alert(entry.fullPath);
+            plus.runtime.openFile(iP.dir + fileId, {}, function ( e ) {
+                plus.nativeUI.alert( "无法打开此文件：" + e.message );
+            });
+        }
+    },
+    goBack: function() {
+        var array = iP.dirArray;
+        if(iP.dirArray.length == 1)//storage根目录
+            return;
+        iP.dirArray.pop();
+        var parentId = iP.dirArray[iP.dirArray.length - 1];
+        var entry = iP.entryObj[parentId];
+        iP.openDir(entry, parentId, false);
+    },
+    sortCompareEntry: function(a,b){
+        if (a.isDirectory && b.isFile ) {
+            return -1;
+        } else if (a.isFile && b.isDirectory ) {
+            return 1;
+        } else {
+            return a.name - b.name;
+        }
+    },
+    updateInfo: function(itemDom, entry){
+        entry.getMetadata(function (metadata){
+            var infoDom = itemDom.find(".info");
+            if (entry.isDirectory) {
+                infoDom.text("文件夹:" + metadata.directoryCount + "项，文件:" + metadata.fileCount + "项");
+            } else {
+                infoDom.text(iP.dateToStr(metadata.modificationTime));
+            }
+        }, function ( e ) {
+            alert("Get metadata " + entry.name + " failed: " + e.message);
+        }, false);
+    },
+    updateList: function(entries){
+        iP.contentDom.find(".item").not(".uhide").remove();
+        entries.sort(iP.sortCompareEntry);
+        for ( i = 0; i < entries.length; i++ ) {
+            var entry = entries[i];
+            var iconClass = entry.isDirectory ? "img1": "img2";
+            var itemDom = $(".item:first").clone().removeClass("uhide");
+            itemDom.find(".ub-img").addClass(iconClass);
+            itemDom.find(".name").text(entry.name);
+            itemDom.attr("id", entry.name)
+            iP.updateInfo(itemDom, entry);
+            iP.contentDom.append(itemDom);
+            iP.entryObj[entry.name] = entry;
+        }
+    },
+    dateToStr: function(datetime) {
+        var year = datetime.getFullYear(),
+        month = datetime.getMonth()+1,
+        date = datetime.getDate(),
+        hour = datetime.getHours(),
+        minutes = datetime.getMinutes(),
+        second = datetime.getSeconds();
+        if (month < 10)
+            month = "0" + month;
+        if (date < 10)
+            date = "0" + date;
+        if (hour < 10)
+            hour = "0" + hour;
+        if (minutes < 10)
+            minutes = "0" + minutes;
+        if (second < 10)
+            second = "0" + second;
+        return (year + "-" + month + "-" + date + " " + hour + ":" + minutes + ":" + second);
+    }
+};
+</script>
+</body>
+</html>
